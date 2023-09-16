@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
+    <title>List Pendaftar</title>
+
+    <style>
+      body {
+        background: linear-gradient(to right, red, blue);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Ini Navbar -->
+    <nav class="navbar">
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link" href="./index.html" aria-selected="true"
+            >Registrasi</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link active"
+            aria-selected="false"
+            id="listdaftar"
+            href="./table_pendaftar.html"
+            >List Pendaftar</a
+          >
+        </li>
+      </ul>
+    </nav>
+    <!-- List Table Pendaftar -->
+    <section id="list">
+      <!-- Tabel Pendaftar -->
+      <div class="container mt-4">
+        <h2>Data Pendaftar</h2>
+        <table border="1" class="table">
+          <thead>
+            <tr>
+              <th>Nama</th>
+              <th>Umur</th>
+              <th>Uang Saku</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td id="outputValue1"></td>
+              <td id="outputValue2"></td>
+              <td id="outputValue3"></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Resume -->
+        <h2>Resume</h2>
+        <table class="table mb-5" id="resumeTable">
+          <thead>
+            <tr>
+              <th>Statistik</th>
+              <th>Nilai</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Rata-rata Pendaftar Memiliki Uang Saku</td>
+              <td id="averageUangSaku"></td>
+            </tr>
+            <tr>
+              <td>Dengan rata-rata Umur</td>
+              <td id="averageUmur"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <!-- ... (previous code) -->
+    <script>
+      // Retrieve the array of values from sessionStorage
+      const registrationData =
+        JSON.parse(sessionStorage.getItem("registrationData")) || [];
+
+      // Display the values in a table
+      const tableBody = document.querySelector("tbody");
+
+      registrationData.forEach((data, index) => {
+        const row = tableBody.insertRow(index);
+        const cell1 = row.insertCell(0);
+        const cell2 = row.insertCell(1);
+        const cell3 = row.insertCell(2);
+        cell1.textContent = data.Nama;
+        cell2.textContent = data.Umur;
+        cell3.textContent = data["Uang Saku"];
+      });
+
+      // Calculate the average age and average pocket money
+      const totalUmur = registrationData.reduce(
+        (total, data) => total + parseInt(data.Umur),
+        0
+      );
+      const totalUangSaku = registrationData.reduce(
+        (total, data) => total + parseInt(data["Uang Saku"]),
+        0
+      );
+
+      const averageUmur = totalUmur / registrationData.length;
+      const averageUangSaku = totalUangSaku / registrationData.length;
+
+      // Display the averages
+      document.getElementById("averageUmur").textContent =
+        averageUmur.toFixed(2);
+      document.getElementById("averageUangSaku").textContent =
+        averageUangSaku.toFixed(2);
+    </script>
+  </body>
+</html>
